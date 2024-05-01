@@ -1,19 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatroom</title>
-</head>
-<body>
-  <h1>Chatroom</h1>
-  <form id="chatForm">
-    <label for="userInput">You:</label>
-    <input type="text" id="userInput" name="userInput">
-    <button type="submit">Send</button>
-  </form>
-  <div id="output"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatroom</title>
+  </head>
+  <body>
+    <h1>Chatroom</h1>
+    <form id="chatForm">
+      <label for="userInput">You:</label>
+      <input type="text" id="userInput" name="userInput" />
+      <button type="submit">Send</button>
+    </form>
+    <div id="output"></div>
+    <ul id="messages"></ul>
+    <form id="chatTestForm" action="">
+      <input id="message" autocomplete="off" /><button>Send</button>
+    </form>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      document.getElementById("chatTestForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const message = document.getElementById("message").value;
+        socket.emit("chat message", message);
+        document.getElementById("message").value = "";
+      });
+
+      socket.on("chat message", (msg) => {
+        const li = document.createElement("li");
+        li.textContent = msg;
+        
+        document.getElementById("messages").appendChild(li);
+      });
+      
+      socket.on("model", (msg) => {
+        const h3 = document.createElement("h3");
+        h3.textContent = msg.name;
+        const li = document.createElement("li");
+        li.textContent = msg.response;
+        document.getElementById("messages").appendChild(h3);
+        document.getElementById("messages").appendChild(li);
+      });
+      
+      socket.on("user", (msg) => {
+        const h1 = document.createElement("h1");
+        h1.textContent = "user";
+        const li = document.createElement("li");
+        li.textContent = msg;
+        document.getElementById("messages").appendChild(h1);
+        document.getElementById("messages").appendChild(li);
+      });
+    </script>
+  </body>
 </html>
