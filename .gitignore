@@ -1,4 +1,9 @@
-_app.js
 .env
+
 /node_modules
+
 .vercel
+.firebase
+.github
+
+_app.js
