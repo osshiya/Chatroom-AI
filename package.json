@@ -1,4 +1,9 @@
 {
+  "name": "chatroom-ai",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'No build step needed'"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.7.1",
     "body-parser": "^1.20.2",
