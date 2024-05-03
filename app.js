@@ -8,8 +8,23 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public"));
-const server = http.createServer(app);
 
-server.listen(3000, () => {
-  console.log("Server is running on port 3000");
+// Endpoint to get environment variables
+app.post("/processInput", (req, res) => {
+  try {
+    const apiKey = process.env.GOOGLE_API_KEY;
+    if (
+      !req.headers.authorization ||
+      req.headers.authorization !== "f4v3KdlBQCfvMWPYCOOsBPl6rOLgzsaU"
+    ) {
+      res.status(403).json({ error: "Unauthorized" });
+    } else {
+      res.json({ apiKey });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "An error occurred while retrieving data." });
+  }
 });
+
+module.exports = app;
