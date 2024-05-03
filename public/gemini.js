@@ -205,7 +205,11 @@ await fetch("/api/processInput", {
       let user_personality = `This is a ${user["language"]} chatroom consisting of a total of 6 people including me, we are of different races, cultures and religions. I am the user.`;
       let intro = `${user_personality}. In this chatroom we also have 5 other people: ${ai_personalities}.`;
 
-      const prompt = `${intro}. Review the chat history: ${chat_history} and consider the recent messages sent, they are formatted as {sender name}: {sender message}. Select a chatroom member that are not the user ${user["name"]} (Since that is me myself), to continue the conversation. 
+      const prompt = `${intro}. Review the chat history: (${JSON.stringify(
+        chat_history
+      )})and consider the recent messages sent, they are formatted as {sender name}: {sender message}. Select a chatroom member that are not the user ${
+        user["name"]
+      } (Since that is me myself), to continue the conversation. 
   If the last message is addressed to or related to a specific member, choose them and continue the topic; 
   If the last message is addressed to me, select another member and introduce a new topic. 
   Otherwise, select a random member to either continue the current topic or introduce a new one. Don't start a new topic until the previous one is talk through by most members. The chosen member will reply to the sender of the last message strictly using the following format:
@@ -256,9 +260,17 @@ await fetch("/api/processInput", {
 
       const generated_scores_prompt = `
   ${intro}
-  Rate the user ${user["name"]}'s social skills based on their interactions in the chat history.
-  Each member will give the user ${user["name"]} a score out of 10, reflecting their interactions with them in the chatroom.
-  Provide feedback on how the user ${user["name"]} performed, highlighting areas for improvement and strengths.
+  Rate the user ${
+    user["name"]
+  }'s social skills based on their interactions in the chat history (${JSON.stringify(
+        chat_history
+      )}).
+  Each member will give the user ${
+    user["name"]
+  } a score out of 10, reflecting their interactions with them in the chatroom.
+  Provide feedback on how the user ${
+    user["name"]
+  } performed, highlighting areas for improvement and strengths.
   Finally, assign an overall score and comment under the key "Overall".
 
   The format for each member's feedback should be:
@@ -309,7 +321,7 @@ Offer a recommendation or piece of advice to the user regarding their social ski
       }".
 
 Example:
-"After reviewing the chat history, I recommend that the user focuses on active listening during conversations to better understand the perspectives of other members. By demonstrating empathy and engaging in meaningful dialogue, they can enhance their social skills and move closer to achieving their goal of "${
+"I recommend that the user focuses on active listening during conversations to better understand the perspectives of other members. By demonstrating empathy and engaging in meaningful dialogue, they can enhance their social skills and move closer to achieving their goal of "${
         user["goal"]
       }"."
 `;
