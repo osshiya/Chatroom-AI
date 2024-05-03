@@ -1,6 +1,5 @@
 const dotenv = require("dotenv");
 const express = require("express");
-const http = require("http");
 const bodyParser = require("body-parser");
 
 dotenv.config();
@@ -10,11 +9,11 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 
 // Endpoint to get environment variables
-app.post("/processInput", (req, res) => {
+app.post("/api/processInput", (req, res) => {
   try {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (
-      !req.headers.authorization ||
+      !apiKey ||
       req.headers.authorization !== "f4v3KdlBQCfvMWPYCOOsBPl6rOLgzsaU"
     ) {
       res.status(403).json({ error: "Unauthorized" });

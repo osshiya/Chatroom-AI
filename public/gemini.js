@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { appendMessage } from "./script.js";
 import { appendSystemMessage } from "./script.js";
 
-await fetch("/processInput", {
+await fetch("/api/processInput", {
   method: "POST",
   headers: {
     Authorization: "f4v3KdlBQCfvMWPYCOOsBPl6rOLgzsaU",
