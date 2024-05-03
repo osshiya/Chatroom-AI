@@ -199,7 +199,7 @@ await fetch("/api/processInput", {
     }
 
     async function generateAIResponse() {
-      const prompt = `${intro}. Review the chat history and consider the messages sent, they are formatted as {sender name}: {sender message}. Select a chatroom member that are not the user ${user["name"]} (Since that is me myself), to continue the conversation. 
+      const prompt = `${intro}. Review the previous messages and consider the messages sent, they are formatted as {sender name}: {sender message}. Select a chatroom member that are not the user ${user["name"]} (Since that is me myself), to continue the conversation. 
   If the last message is addressed to or related to a specific member, choose them and continue the topic; 
   If the last message is addressed to me, select another member and introduce a new topic. 
   Otherwise, select a random member to either continue the current topic or introduce a new one. Don't start a new topic until the previous one is talk through by most members. The chosen member will reply to the sender of the last message strictly using the following format:
@@ -225,7 +225,7 @@ await fetch("/api/processInput", {
     }
 
     async function generateResponse(user_input) {
-      const prompt = `${intro}. Review the chat history and reply to the user ${user["name"]} who just said ${user_input}. 
+      const prompt = `${intro}. Review the the previous messages and reply to the user ${user["name"]} who just said ${user_input}. 
   Select a chatroom member, exclude the user ${user["name"]}, to continue the conversation. 
   The chosen member will reply to the message using the following format:
   {"name": "selected member name", "response": "message"},
@@ -241,7 +241,7 @@ await fetch("/api/processInput", {
     async function generateResult() {
       const generated_scores_prompt = `
   ${intro}
-  Rate the user ${user["name"]}'s social skills based on their interactions in the chat history.
+  Rate the user ${user["name"]}'s social skills based on their interactions in the previous messages.
   Each member will give the user ${user["name"]} a score out of 10, reflecting their interactions with them in the chatroom.
   Provide feedback on how the user ${user["name"]} performed, highlighting areas for improvement and strengths.
   Finally, assign an overall score and comment under the key "Overall".
@@ -286,15 +286,13 @@ await fetch("/api/processInput", {
 
       const generated_recommendations_prompt = `
 ${intro}
-Offer a recommendation or piece of advice to the user regarding their social skills, as observed from the chat history (${JSON.stringify(
-        chat_history
-      )}). Consider the interactions with other members in the chatroom and how the user
+Offer a recommendation or piece of advice to the user regarding their social skills, as observed from the previous messages. Consider the interactions with other members in the chatroom and how the user
   } can better achieve their goal of "${user["goal"]}" due to "${
         user["reason"]
       }".
 
 Example:
-"After reviewing the chat history, I recommend that the user focuses on active listening during conversations to better understand the perspectives of other members. By demonstrating empathy and engaging in meaningful dialogue, they can enhance their social skills and move closer to achieving their goal of "${
+"After reviewing from the previous messages, I recommend that the user focuses on active listening during conversations to better understand the perspectives of other members. By demonstrating empathy and engaging in meaningful dialogue, they can enhance their social skills and move closer to achieving their goal of "${
         user["goal"]
       }"."
 `;
