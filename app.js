@@ -221,12 +221,13 @@ async function generateAIResponse() {
 
   try {
     reply = response.candidates[0].content.parts[0].text.match(/\{.*\}/)[0];
+    return reply;
   } catch (error) {
     console.log("Error: Wrong format");
     console.log(response);
     generateAIResponse();
   }
-  return reply;
+  return response;
 }
 
 async function generateResponse(user_input) {
