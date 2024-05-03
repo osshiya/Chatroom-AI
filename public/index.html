@@ -3,8 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chatroom</title>
-
+    <title>Chatroom AI</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script type="importmap">
       {
         "imports": {
@@ -15,23 +19,33 @@
     </script>
   </head>
   <body>
-    <h1>Chatroom</h1>
-    <form id="chatForm">
-      <label for="userInput">You:</label>
-      <input type="text" id="userInput" name="userInput" />
-      <button type="submit">Send</button>
-    </form>
-    <div id="output"></div>
-    <ul id="messages"></ul>
-    <form id="chatTestForm" action="">
-      <input id="message" autocomplete="off" /><button>Send</button>
-    </form>
+    <div id="wrapper">
+      <div class="chat-container">
+        <div id="chat-interface" class="message-container"></div>
 
-    <script src="script.js"></script>
+        <form class="message-input" id="chatForm">
+            <label for="attachmentInput" class="attachment-icon">
+              <i class="fa fa-paperclip"></i>
+            </label>
+            <input type="file" id="attachmentInput" style="display: none" />
 
-    <!-- <script src="/socket.io/socket.io.js"></script> -->
-    <!-- <script type="module" src="socket.js"></script> -->
+            <input
+              type="text"
+              placeholder="Type your message..."
+              id="userInput"
+              name="userInput"
+              autocomplete="off"
+            />
 
+            <button class="attachment-icon" type="submit">
+              <i class="fa fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
     <script type="module" src="gemini.js"></script>
   </body>
 </html>

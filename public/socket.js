@@ -1,3 +1,8 @@
+{
+  /* <script src="/socket.io/socket.io.js"></script>
+<script type="module" src="socket.js"></script> */
+}
+
 import { io } from "socket.io-client";
 
 const socket = io();

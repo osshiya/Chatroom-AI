@@ -1,40 +1,50 @@
-document.getElementById("chatTestForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const message = document.getElementById("message").value;
-  // socket.emit("chat message", message);
-  document.getElementById("message").value = "";
-});
+import { toMarked } from "./marked.js";
 
-// document
-//   .getElementById("chatForm")
-//   .addEventListener("submit", async (event) => {
-//     event.preventDefault(); // Prevent default form submission
+// Handle UI
+export function appendMessage(sender, message) {
+  var chatContainer = document.getElementById("chat-interface");
+  if (sender === "user") {
+    var messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+    messageDiv.classList.add("receiver-message");
+    messageDiv.textContent = message;
+  } else {
+    var messageDiv = document.createElement("div");
+    messageDiv.classList.add("sender-container");
 
-//     const userInput = document.getElementById("userInput").value;
+    var messageInfo = document.createElement("p");
+    messageInfo.classList.add("message-info");
+    messageInfo.classList.add("sender-name");
+    messageInfo.textContent = message.name;
 
-//     try {
-//       const response = await fetch("/processInput", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ userInput }),
-//       });
+    var messageSenderDiv = document.createElement("div");
+    messageSenderDiv.classList.add("message");
+    messageSenderDiv.classList.add("sender-message");
+    messageSenderDiv.textContent = message.response;
 
-//       const data = await response.json();
+    messageDiv.appendChild(messageInfo);
+    messageDiv.appendChild(messageSenderDiv);
+  }
+  chatContainer.appendChild(messageDiv);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
 
-//       if (userInput != "exit") {
-//         document.getElementById("output").innerText = data.message;
-//       } else {
-//         for (score of data.r_score) {
-//           document.getElementById("output").innerText += score;
-//         }
-//         document.getElementById("output").innerText +=
-//           "\n" + data.r_comment + "\n";
-//         document.getElementById("output").innerText +=
-//           "\n" + data.r_recommendation;
-//       }
-//     } catch (error) {
-//       console.error("Error:", error);
-//     }
-//   });
+export function appendSystemMessage(message) {
+  var result = "";
+
+  var chatContainer = document.getElementById("chat-interface");
+  var messageDiv = document.createElement("div");
+  messageDiv.classList.add("message");
+  messageDiv.classList.add("system-message");
+
+  for (var score of message.r_score) {
+    result += score.name + ": " + score.comment + " (" + score.score + ")<br>";
+  }
+  result += toMarked(message.r_comment) + "<br>";
+  result += toMarked(message.r_recommendation);
+
+  messageDiv.innerHTML = result;
+
+  chatContainer.appendChild(messageDiv);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
