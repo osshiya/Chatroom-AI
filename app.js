@@ -45,6 +45,8 @@ const user = {
 let status = true;
 let chat_history = [];
 let ai_personalities = [];
+let user_personality = `This is a ${user["language"]} chatroom consisting of a total of 6 people including me, we are of different races, cultures and religions. I am the user.`;
+let intro = `${user_personality}. In this chatroom we also have 5 other people: ${ai_personalities}.`;
 
 const chat = model.startChat({
   history: [],
@@ -130,8 +132,6 @@ async function sendMessage(role, prompt) {
 }
 
 async function generateAI() {
-  let user_personality = `This is a ${user["language"]} chatroom consisting of a total of 6 people including me, we are of different races, cultures and religions. I am the user.`;
-
   let prompt =
     user_personality +
     'Generate the 5 other bots\' personalities in this format with a "\n" separator: {"name": "Alice", "age": 25, "gender": "female", "occupation": "software engineer", "dream": "professional musician", "mbti": "INFJ", "goal": "provide emotional support", "reason": "I love helping others."}\n.';
@@ -161,9 +161,6 @@ async function generateAI() {
 
 async function generateChat() {
   async function setup() {
-    let user_personality = `This is a ${user["language"]} chatroom consisting of a total of 6 people including me, we are of different races, cultures and religions. I am the user.`;
-    let intro = `${user_personality}. In this chatroom we also have 5 other people: ${ai_personalities}.`;
-
     const prompt = `${intro}. Now, ask them to introduce themselves using the following format, with each introduction separated by a comma and newline:
     {"name": "Alice", "response": "Hi! It's great to meet you."},
     {"name": "Bob", "response": "Hello there! Nice to be here."},
@@ -209,14 +206,7 @@ async function generateChat() {
 }
 
 async function generateAIResponse() {
-  let user_personality = `This is a ${user["language"]} chatroom consisting of a total of 6 people including me, we are of different races, cultures and religions. I am the user.`;
-  let intro = `${user_personality}. In this chatroom we also have 5 other people: ${ai_personalities}.`;
-
-  const prompt = `${intro}. Review the chat history (${JSON.stringify(
-    chat_history
-  )}) and consider the messages sent, they are formatted as {sender name}: {sender message}. Select a chatroom member that are not the user ${
-    user["name"]
-  } (Since that is me myself), to continue the conversation. 
+  const prompt = `${intro}. Review the chat history and consider the messages sent, they are formatted as {sender name}: {sender message}. Select a chatroom member that are not the user ${user["name"]} (Since that is me myself), to continue the conversation. 
   If the last message is addressed to or related to a specific member, choose them and continue the topic; 
   If the last message is addressed to me, select another member and introduce a new topic. 
   Otherwise, select a random member to either continue the current topic or introduce a new one. Don't start a new topic until the previous one is talk through by most members. The chosen member will reply to the sender of the last message strictly using the following format:
@@ -240,15 +230,8 @@ async function generateAIResponse() {
 }
 
 async function generateResponse(user_input) {
-  let user_personality = `This is a ${user["language"]} chatroom consisting of a total of 6 people including me, we are of different races, cultures and religions. I am the user.`;
-  let intro = `${user_personality}. In this chatroom we also have 5 other people: ${ai_personalities}.`;
-
-  const prompt = `${intro}. Review the chat history (${JSON.stringify(
-    chat_history
-  )}) and reply to the user ${user["name"]} who just said ${user_input}. 
-  Select a chatroom member, exclude the user ${
-    user["name"]
-  }, to continue the conversation. 
+  const prompt = `${intro}. Review the chat history and reply to the user ${user["name"]} who just said ${user_input}. 
+  Select a chatroom member, exclude the user ${user["name"]}, to continue the conversation. 
   The chosen member will reply to the message using the following format:
   {"name": "selected member name", "response": "message"},
   {"name": "Alice", "response": "Hi! It's great to meet you."},
@@ -261,22 +244,11 @@ async function generateResponse(user_input) {
 }
 
 async function generateResult() {
-  let user_personality = `This is a ${user["language"]} chatroom consisting of a total of 6 people including me, we are of different races, cultures and religions. I am the user.`;
-  let intro = `${user_personality}. In this chatroom we also have 5 other people: ${ai_personalities}.`;
-
   const generated_scores_prompt = `
   ${intro}
-  Rate the user ${
-    user["name"]
-  }'s social skills based on their interactions in the chat history (${JSON.stringify(
-    chat_history
-  )}).
-  Each member will give the user ${
-    user["name"]
-  } a score out of 10, reflecting their interactions with them in the chatroom.
-  Provide feedback on how the user ${
-    user["name"]
-  } performed, highlighting areas for improvement and strengths.
+  Rate the user ${user["name"]}'s social skills based on their interactions in the chat history.
+  Each member will give the user ${user["name"]} a score out of 10, reflecting their interactions with them in the chatroom.
+  Provide feedback on how the user ${user["name"]} performed, highlighting areas for improvement and strengths.
   Finally, assign an overall score and comment under the key "Overall".
 
   The format for each member's feedback should be:
@@ -327,7 +299,7 @@ Offer a recommendation or piece of advice to the user regarding their social ski
   }".
 
 Example:
-"I recommend that the user focuses on active listening during conversations to better understand the perspectives of other members. By demonstrating empathy and engaging in meaningful dialogue, they can enhance their social skills and move closer to achieving their goal of "${
+"After reviewing the chat history, I recommend that the user focuses on active listening during conversations to better understand the perspectives of other members. By demonstrating empathy and engaging in meaningful dialogue, they can enhance their social skills and move closer to achieving their goal of "${
     user["goal"]
   }"."
 `;
