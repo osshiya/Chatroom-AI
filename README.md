@@ -30,7 +30,7 @@ Elevate Your Social Skills through Conversations in an AI-Powered Chatroom!
 
 ## Inspiration
 
-The inspiration for Chatroom AI stemmed from the role-playing mechanism of Autonomous Agents that also utilize Large Language Models (LLMs) like Gemini. We were intrigued by the idea of simulating realistic interactions in a chatroom environment using AI.
+The inspiration for Chatroom AI stemmed from the role-playing mechanism of Autonomous Agents that also utilize Large Language Models (LLMs) like Gemini. We were intrigued by the idea of simulating realistic interactions in a chatroom environment through roleplaying using Generative AI.
 
 ## What it does
 
