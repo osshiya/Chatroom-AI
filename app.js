@@ -134,7 +134,7 @@ async function sendMessage(role, prompt) {
 async function generateAI() {
   let prompt =
     user_personality +
-    'Generate the 9 other bots\' personalities in this format with a "\n" separator: {"name": "Alice", "age": 25, "gender": "female", "occupation": "software engineer", "dream": "professional musician", "mbti": "INFJ", "goal": "provide emotional support", "reason": "I love helping others."}\n.';
+    'Generate the 5 other bots\' personalities in this format with a "\n" separator: {"name": "Alice", "age": 25, "gender": "female", "occupation": "software engineer", "dream": "professional musician", "mbti": "INFJ", "goal": "provide emotional support", "reason": "I love helping others."}\n.';
 
   const generated_personalities_response = await sendMessage("", prompt);
   const generated_candidate = generated_personalities_response.candidates;
