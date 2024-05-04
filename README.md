@@ -15,8 +15,10 @@ Elevate Your Social Skills through Conversations in an AI-Powered Chatroom!
 
 ## Installation Instructions
 
-1. **Node.js:**
+There are two methods to access the application:
 
+1. **Node.js:**
+   - Run `npm install` in the command line.
    - Run `node app.js` in the command line.
    - Create a `.env` file and add the API key:
      ```
